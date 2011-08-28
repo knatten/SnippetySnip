@@ -1,0 +1,35 @@
+SnippetySnip is a vim tool for automatically inserting parts (snippets) of other files in a file. I wrote it to insert sourcecode examples from source files into html blog-posts, but it can be used for all sorts of text files.
+
+In the source file, you mark up a region of text (a snippet) and give it a name. In the target file, you mark where you want this particular snippet inserted. 
+
+For instance:
+
+source.py:
+    (...)
+    #snippetysnip_begin:foo
+    def foo():
+        return 0
+    #snippetysnip_end
+    (...)
+
+target.html:
+    <p><code>
+    <!-- snippetysnip:/path/to/example2.py:foo -->
+    </code></p>
+
+When SnippetySnip is run, the function foo() from source.py is inserted into the html file, which then looks like this:
+
+target.html:
+    <p><code>
+    <!-- snippetysnip:/path/to/example2.py:foo -->
+    def foo():
+        return 0
+    <!-- snippetysnip_end:/path/to/example2.py:foo -->
+    </code></p>
+
+
+SnippetySnip does not care about the format of the comments in your particular language, it only looks for the snippetysnip-strings.
+
+You can have many snippets in a source file, and a target file can reference multiple snippets from multiple sources.
+
+Paths can be relative or absolute.

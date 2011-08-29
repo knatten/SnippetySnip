@@ -10,7 +10,7 @@ def get_snippet(file_name, snippet_name):
     try:
         file = open(file_name, 'r')
     except IOError as e:
-        return "ERROR: Couldn't open file: %s" % e
+        return "ERROR: Couldn't open file: %s\n" % e
     for line in file:
         if snippet_begin in line:
             in_snippet = True
@@ -22,9 +22,9 @@ def get_snippet(file_name, snippet_name):
             snippet += line
 
     if not found_tag:
-        return "ERROR: Didn't find %s" % snippet_begin
+        return "ERROR: Didn't find %s\n" % snippet_begin
     if in_snippet:
-        return "ERROR: Didn't find snippetysnip_end after %s" % snippet_begin
+        return "ERROR: Didn't find snippetysnip_end after %s\n" % snippet_begin
     return snippet
 
 

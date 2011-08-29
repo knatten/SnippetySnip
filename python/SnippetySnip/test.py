@@ -9,17 +9,17 @@ class Test_get_snippet(unittest.TestCase):
 
     def test_missing_snippet_returns_errormessage(self):
         self.assertEqual(
-            "ERROR: Didn't find snippetysnip_begin:platypus",
+            "ERROR: Didn't find snippetysnip_begin:platypus\n",
             get_snippet("example.cpp", "platypus"))
 
     def test_missing_snippet_end_returns_errormessage(self):
         self.assertEqual(
-            "ERROR: Didn't find snippetysnip_end after snippetysnip_begin:error",
+            "ERROR: Didn't find snippetysnip_end after snippetysnip_begin:error\n",
             get_snippet("example.cpp", "error"))
 
     def test_missing_file_returns_errormessage(self):
         self.assertEqual(
-            "ERROR: Couldn't open file: [Errno 2] No such file or directory: 'missing_file.cpp'",
+            "ERROR: Couldn't open file: [Errno 2] No such file or directory: 'missing_file.cpp'\n",
             get_snippet("missing_file.cpp", "tag"))
 
 class Test_find_end_line(unittest.TestCase):

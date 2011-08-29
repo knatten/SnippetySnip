@@ -1,3 +1,4 @@
 *.pyc
 SnippetySnip*.tgz
 *.swp
+use_dev.sh

@@ -33,3 +33,9 @@ SnippetySnip does not care about the format of the comments in your particular l
 You can have many snippets in a source file, and a target file can reference multiple snippets from multiple sources.
 
 Paths can be relative or absolute.
+
+
+HOW TO USE
+In the source files, surround each snippet with snippetysnip_begin:SNIPPET_NAME and snippetysnip_end. These tags need to be on separate lines, but except from that, they can be inside the comment style of your choice, depending on the host lanugage. See the example above.
+In the target file, put on a separate line snippetysnipp:FILE_NAME:SNIPPET_NAME
+Paths can be relative or absolute. See the example above.

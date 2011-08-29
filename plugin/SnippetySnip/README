@@ -14,17 +14,17 @@ source.py:
 
 target.html:
     <p><code>
-    <!-- snippetysnip:/path/to/example2.py:foo -->
+    <!-- snippetysnip:/path/to/source.py:foo -->
     </code></p>
 
 When SnippetySnip is run, the function foo() from source.py is inserted into the html file, which then looks like this:
 
 target.html:
     <p><code>
-    <!-- snippetysnip:/path/to/example2.py:foo -->
+    <!-- snippetysnip:/path/to/source.py:foo -->
     def foo():
         return 0
-    <!-- snippetysnip_end:/path/to/example2.py:foo -->
+    <!-- snippetysnip_end:/path/to/source.py:foo -->
     </code></p>
 
 
@@ -38,4 +38,9 @@ Paths can be relative or absolute.
 HOW TO USE
 In the source files, surround each snippet with snippetysnip_begin:SNIPPET_NAME and snippetysnip_end. These tags need to be on separate lines, but except from that, they can be inside the comment style of your choice, depending on the host lanugage. See the example above.
 In the target file, put on a separate line snippetysnipp:FILE_NAME:SNIPPET_NAME
-Paths can be relative or absolute. See the example above.
+Paths can be relative or absolute. See the example above, or python/SnippetySnip/integration_tests/ for a more extensive one.
+
+
+INSTALLATION
+Download SnippetySnip-<version>.tgz into your vim directory (usually ~/.vim on Linux systems) and do
+tar zxf SnippetySnip-<version>.tgz

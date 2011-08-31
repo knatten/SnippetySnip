@@ -1,5 +1,5 @@
 " Vim plugin for importing into a file selected lines from other files
-" Version:     0.1
+" Version:     0.2
 " Last change: 2011-08-28
 " Author:      Anders Schau Knatten
 " Contact:     anders AT knatten DOT org

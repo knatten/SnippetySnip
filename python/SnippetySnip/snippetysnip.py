@@ -35,13 +35,26 @@ def find_end_line(lines, file_name, snippet_name):
             return line_no
     return -1
 
+snippetstring_with_args = '(.*snippetysnip:[^:]*:[^:]*)(:\(.*\))(.*)'
+
+def get_arguments(string):
+    arguments_string = re.search(snippetstring_with_args, string)
+    extracted_arguments = {}
+    if arguments_string:
+        args = arguments_string.group(2)
+        for arg in ('before', 'after'):
+            for quote in ('"', "'"):
+                arg_match = re.search(arg+' *= *%s([^%s]*)%s' % (quote, quote, quote), args)
+                if arg_match:
+                    extracted_arguments[arg] = arg_match.group(1)
+    return extracted_arguments
 
 def remove_arguments(string):
-    match = re.search('(.*snippetysnip:[^:]*:[^:]*)(:\(.*\))(.*)', string)
-    if not match:
-        return string
-    else:
+    match = re.search(snippetstring_with_args, string)
+    if match:
         return match.group(1) + match.group(3)
+    else:
+        return string
 
 def insert_snippets(old_buffer, snippet_getter=get_snippet):
     snippet_begin = "snippetysnip:(.*):(.*)\s" 

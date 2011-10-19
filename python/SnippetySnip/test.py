@@ -85,7 +85,23 @@ class Test_insert_snippets(unittest.TestCase):
             "bar"
         ]
         self.assertEqual(expected, insert_snippets(buffer, fake_get_snippet))
-        pass #TODO after and with quotes
+
+
+class Test_get_arguments(unittest.TestCase):
+    def test_if_no_arguments_returns_empty(self):
+        self.assertEqual({}, get_arguments("snippetysnip:file:snippet"))
+
+    def test_if_one_argument_returns_that(self):
+        self.assertEqual({'before':'foo'}, get_arguments("snippetysnip:file:snippet:(before=\"foo\")"))
+
+    def test_if_two_arguments_returns_both(self):
+        self.assertEqual({'before':'foo', 'after':'bar'}, get_arguments('snippetysnip:file:snippet:(before="foo",after="bar")'))
+
+    def test_spaces_are_allowed_but_optional(self):
+        self.assertEqual({'before':'foo', 'after':'bar'}, get_arguments('snippetysnip:file:snippet:(before =  "foo",   after="bar")'))
+
+    def test_single_quotes_also_work(self):
+        self.assertEqual({'before':'foo', 'after':'bar'}, get_arguments("snippetysnip:file:snippet:(before='foo',after='bar')"))
 
 
 class Test_remove_arguments(unittest.TestCase):

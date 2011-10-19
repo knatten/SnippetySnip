@@ -77,14 +77,33 @@ class Test_insert_snippets(unittest.TestCase):
         expected = [
             "foo",
             "<!-- snippetysnip:snippy.cpp:snippet:(before=\"[sourcecode]\") -->",
-            #"[sourcecode]",
+            "[sourcecode]",
             "line1",
             "line2",
-            #"[/sourcecode]",
             "<!-- snippetysnip_end:snippy.cpp:snippet -->",
             "bar"
         ]
-        self.assertEqual(expected, insert_snippets(buffer, fake_get_snippet))
+        actual = insert_snippets(buffer, fake_get_snippet)
+        self.assertEqual(expected, actual)
+
+    def test_inserts_before_and_after(self):
+        buffer = [
+            "foo",
+            "<!-- snippetysnip:snippy.cpp:snippet:(before=\"[sourcecode]\", after=\"[/sourcecode]\") -->",
+            "bar"
+        ]
+        expected = [
+            "foo",
+            "<!-- snippetysnip:snippy.cpp:snippet:(before=\"[sourcecode]\", after=\"[/sourcecode]\") -->",
+            "[sourcecode]",
+            "line1",
+            "line2",
+            "[/sourcecode]",
+            "<!-- snippetysnip_end:snippy.cpp:snippet -->",
+            "bar"
+        ]
+        actual = insert_snippets(buffer, fake_get_snippet)
+        self.assertEqual(expected, actual)
 
 
 class Test_get_arguments(unittest.TestCase):

@@ -57,7 +57,7 @@ def remove_arguments(string):
         return string
 
 def insert_snippets(old_buffer, snippet_getter=get_snippet):
-    snippet_begin = "snippetysnip:(.*):(.*)\s" 
+    snippet_begin = "snippetysnip:([^:]*):([^:]*)[\s:]" 
     new_buffer = []
     line_no = 0
     while line_no < len(old_buffer):
@@ -67,10 +67,10 @@ def insert_snippets(old_buffer, snippet_getter=get_snippet):
         if match:
             arguments = get_arguments(line)
             file_name, snippet_name = match.groups()
-            if arguments.get('before'):
+            if arguments.has_key('before'):
                 new_buffer.append(arguments['before'])
             new_buffer.extend(snippet_getter(file_name, snippet_name).split("\n")[:-1])
-            if arguments.get('after'):
+            if arguments.has_key('after'):
                 new_buffer.append(arguments['after'])
             new_buffer.append(remove_arguments(line).replace("snippetysnip", "snippetysnip_end"))
             end_line = find_end_line(old_buffer[line_no:], file_name, snippet_name)

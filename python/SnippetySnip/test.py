@@ -30,7 +30,8 @@ class Test_find_end_line(unittest.TestCase):
         self.assertEqual(-1, find_end_line([], 'foo', 'bar'))
 
 
-def fake_get_snippet(file_name, snippet_name):
+def mock_get_snippet(file_name, snippet_name):
+    mock_get_snippet.last_file_name = file_name
     return "line1\nline2\n"
 
 class Test_insert_snippets(unittest.TestCase):
@@ -48,7 +49,8 @@ class Test_insert_snippets(unittest.TestCase):
             "<!-- snippetysnip_end:snippy.cpp:snippet -->",
             "bar"
         ]
-        self.assertEqual(expected, insert_snippets(buffer, fake_get_snippet))
+        self.assertEqual(expected, insert_snippets(buffer, mock_get_snippet))
+        self.assertEqual("snippy.cpp", mock_get_snippet.last_file_name)
 
     def test_replaces_simple_snippet(self):
         buffer = [
@@ -66,44 +68,48 @@ class Test_insert_snippets(unittest.TestCase):
             "<!-- snippetysnip_end:snippy.cpp:snippet -->",
             "bar"
         ]
-        self.assertEqual(expected, insert_snippets(buffer, fake_get_snippet))
+        self.assertEqual(expected, insert_snippets(buffer, mock_get_snippet))
+        self.assertEqual("snippy.cpp", mock_get_snippet.last_file_name)
 
     def test_inserts_before(self):
         buffer = [
             "foo",
-            "<!-- snippetysnip:snippy.cpp:snippet:(before=\"[sourcecode]\") -->",
+            "<!-- snippetysnip:snippy.cpp:snippet:(before=\"[sourcecode language='cpp']\") -->",
             "bar"
         ]
         expected = [
             "foo",
-            "<!-- snippetysnip:snippy.cpp:snippet:(before=\"[sourcecode]\") -->",
-            "[sourcecode]",
+            "<!-- snippetysnip:snippy.cpp:snippet:(before=\"[sourcecode language='cpp']\") -->",
+            "[sourcecode language='cpp']",
             "line1",
             "line2",
             "<!-- snippetysnip_end:snippy.cpp:snippet -->",
             "bar"
         ]
-        actual = insert_snippets(buffer, fake_get_snippet)
+        actual = insert_snippets(buffer, mock_get_snippet)
         self.assertEqual(expected, actual)
+        self.assertEqual("snippy.cpp", mock_get_snippet.last_file_name)
 
     def test_inserts_before_and_after(self):
+        return
         buffer = [
             "foo",
-            "<!-- snippetysnip:snippy.cpp:snippet:(before=\"[sourcecode]\", after=\"[/sourcecode]\") -->",
+            "<!-- snippetysnip:snippy.cpp:snippet:(before=\"[sourcecode language='cpp']\", after=\"[/sourcecode]\") -->",
             "bar"
         ]
         expected = [
             "foo",
-            "<!-- snippetysnip:snippy.cpp:snippet:(before=\"[sourcecode]\", after=\"[/sourcecode]\") -->",
-            "[sourcecode]",
+            "<!-- snippetysnip:snippy.cpp:snippet:(before=\"[sourcecode language='cpp']\", after=\"[/sourcecode]\") -->",
+            "[sourcecode language='cpp']",
             "line1",
             "line2",
             "[/sourcecode]",
             "<!-- snippetysnip_end:snippy.cpp:snippet -->",
             "bar"
         ]
-        actual = insert_snippets(buffer, fake_get_snippet)
+        actual = insert_snippets(buffer, mock_get_snippet)
         self.assertEqual(expected, actual)
+        self.assertEqual("snippy.cpp", mock_get_snippet.last_file_name)
 
 
 class Test_get_arguments(unittest.TestCase):

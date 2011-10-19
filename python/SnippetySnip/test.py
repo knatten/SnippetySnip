@@ -34,7 +34,7 @@ def fake_get_snippet(file_name, snippet_name):
     return "line1\nline2\n"
 
 class Test_insert_snippets(unittest.TestCase):
-    def test_inserts_snippet(self):
+    def test_inserts_simple_snippet(self):
         buffer = [
             "foo",
             "<!-- snippetysnip:snippy.cpp:snippet -->",
@@ -50,7 +50,7 @@ class Test_insert_snippets(unittest.TestCase):
         ]
         self.assertEqual(expected, insert_snippets(buffer, fake_get_snippet))
 
-    def test_replaces_snippet(self):
+    def test_replaces_simple_snippet(self):
         buffer = [
             "foo",
             "<!-- snippetysnip:snippy.cpp:snippet -->",
@@ -67,3 +67,33 @@ class Test_insert_snippets(unittest.TestCase):
             "bar"
         ]
         self.assertEqual(expected, insert_snippets(buffer, fake_get_snippet))
+
+    def test_inserts_before(self):
+        buffer = [
+            "foo",
+            "<!-- snippetysnip:snippy.cpp:snippet:(before=\"[sourcecode]\") -->",
+            "bar"
+        ]
+        expected = [
+            "foo",
+            "<!-- snippetysnip:snippy.cpp:snippet:(before=\"[sourcecode]\") -->",
+            #"[sourcecode]",
+            "line1",
+            "line2",
+            #"[/sourcecode]",
+            "<!-- snippetysnip_end:snippy.cpp:snippet -->",
+            "bar"
+        ]
+        self.assertEqual(expected, insert_snippets(buffer, fake_get_snippet))
+        pass #TODO after and with quotes
+
+
+class Test_remove_arguments(unittest.TestCase):
+    def test_leaves_string_without_arguments_alone(self):
+        actual =  "<!-- snippetysnip:snippy.cpp:snippet -->"
+        self.assertEqual(actual, remove_arguments(actual))
+
+    def test_removes_arguments(self):
+        actual = "<!-- snippetysnip:snippy.cpp:snippet:(before=\"[sourcecode]\") -->"
+        expected =  "<!-- snippetysnip:snippy.cpp:snippet -->"
+        self.assertEqual(expected, remove_arguments(actual))

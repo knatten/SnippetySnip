@@ -36,6 +36,13 @@ def find_end_line(lines, file_name, snippet_name):
     return -1
 
 
+def remove_arguments(string):
+    match = re.search('(.*snippetysnip:[^:]*:[^:]*)(:\(.*\))(.*)', string)
+    if not match:
+        return string
+    else:
+        return match.group(1) + match.group(3)
+
 def insert_snippets(old_buffer, snippet_getter=get_snippet):
     snippet_begin = "snippetysnip:(.*):(.*)\s" 
     new_buffer = []
@@ -47,7 +54,7 @@ def insert_snippets(old_buffer, snippet_getter=get_snippet):
         if match:
             file_name, snippet_name = match.groups()
             new_buffer.extend(snippet_getter(file_name, snippet_name).split("\n")[:-1])
-            new_buffer.append(line.replace("snippetysnip", "snippetysnip_end"))
+            new_buffer.append(remove_arguments(line).replace("snippetysnip", "snippetysnip_end"))
             end_line = find_end_line(old_buffer[line_no:], file_name, snippet_name)
             if end_line != -1:
                 line_no += end_line 

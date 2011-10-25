@@ -8,5 +8,5 @@ if [[ $# -ne 1 ]]; then
 fi
 
 git co $1
-tar zcf SnippetySnip-$1.tgz python plugin --exclude *.pyc --exclude *.swp --exclude *.tgz --exclude make_release.sh --exclude set_version.sh 
+tar zcf SnippetySnip-$1.tgz python plugin --exclude *.pyc --exclude *.swp --exclude *.tgz --exclude make_release.sh --exclude set_version.sh  --exclude *tgz
 git co master

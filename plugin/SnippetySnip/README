@@ -35,11 +35,13 @@ You can have many snippets in a source file, and a target file can reference mul
 Paths can be relative or absolute.
 
 
+
 HOW TO USE
 In the source files, surround each snippet with snippetysnip_begin:SNIPPET_NAME and snippetysnip_end. These tags need to be on separate lines, but except from that, they can be inside the comment style of your choice, depending on the host language. See the example above.
 In the target file, put on a separate line snippetysnipp:FILE_NAME:SNIPPET_NAME
 Paths can be relative or absolute. See the example above, or python/SnippetySnip/integration_tests/ for a more extensive one.
 To run SnippetySnip and insert all your snippets, do ":call SnippetySnip()" without the quotes. It is suggested you make a map to make this easier, see INSTALLATION
+
 
 
 INSTALLATION
@@ -49,3 +51,22 @@ tar zxf SnippetySnip-<version>.tgz
 To make SnippetySnip easier to use, I suggest you set up a mapping in ~/.vimrc. One of the following should do nicely:
 map <Leader>s :call SnippetySnip()<CR> "Type <Leader>s to run SnippetySnip
 map <C-s> :call SnippetySnip()<CR> "Press Ctrl+s to run SnippetySnip
+
+
+
+ADVANCED USAGE
+It is possible to give arguments before="..." and/or after="..." when including a snippet. These arguments will be inserted between the snippet command and the actual snippet. Here is an example, inserting code snippets into Wordpress posts:
+
+original target:
+    <!-- snippetysnip:source.cpp:foo:(before='[sourcecode language="cpp"]', after='[/sourcecode]') -->
+
+modified target:
+    <!-- snippetysnip:source.cpp:foo:(before='[sourcecode language="cpp"]', after='[/sourcecode]') -->
+    [sourcecode language="cpp"]
+    imported();
+    code();
+    here();
+    [/sourcecode]
+    <!-- snippetysnip_end:source.cpp:foo -->
+
+(This was motivated by the fact that html-comments do not work well inside [sourcecode] blocks on Wordpress)

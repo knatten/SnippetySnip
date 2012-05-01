@@ -44,8 +44,10 @@ class Test_insert_snippets(unittest.TestCase):
         expected = [
             "foo",
             "<!-- snippetysnip:snippy.cpp:snippet -->",
+            "",
             "line1",
             "line2",
+            "",
             "<!-- snippetysnip_end:snippy.cpp:snippet -->",
             "bar"
         ]
@@ -63,8 +65,10 @@ class Test_insert_snippets(unittest.TestCase):
         expected = [
             "foo",
             "<!-- snippetysnip:snippy.cpp:snippet -->",
+            "",
             "line1",
             "line2",
+            "",
             "<!-- snippetysnip_end:snippy.cpp:snippet -->",
             "bar"
         ]
@@ -80,9 +84,11 @@ class Test_insert_snippets(unittest.TestCase):
         expected = [
             "foo",
             "<!-- snippetysnip:snippy.cpp:snippet:(before=\"[sourcecode language='cpp']\") -->",
+            "",
             "[sourcecode language='cpp']",
             "line1",
             "line2",
+            "",
             "<!-- snippetysnip_end:snippy.cpp:snippet -->",
             "bar"
         ]

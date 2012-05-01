@@ -65,6 +65,7 @@ def insert_snippets(old_buffer, snippet_getter=get_snippet):
         new_buffer.append(line)
         match = re.search(snippet_begin, line)
         if match:
+            new_buffer.append('')
             arguments = get_arguments(line)
             file_name, snippet_name = match.groups()
             if arguments.has_key('before'):
@@ -72,6 +73,7 @@ def insert_snippets(old_buffer, snippet_getter=get_snippet):
             new_buffer.extend(snippet_getter(file_name, snippet_name).split("\n")[:-1])
             if arguments.has_key('after'):
                 new_buffer.append(arguments['after'])
+            new_buffer.append('')
             new_buffer.append(remove_arguments(line).replace("snippetysnip", "snippetysnip_end"))
             end_line = find_end_line(old_buffer[line_no:], file_name, snippet_name)
             if end_line != -1:

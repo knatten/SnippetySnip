@@ -1,0 +1,1 @@
+Add a substitute argument, to modify substrings in the snippet before inserting. For instance, to change from using __thread in GCC to thread_local in C++11.

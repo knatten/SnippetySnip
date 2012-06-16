@@ -6,6 +6,7 @@
 " License:     This file is placed in the public domain.
 
 function! SnippetySnip()
+let saved_pos = getpos(".")
 python << endpython
 lines = insert_snippets(vim.current.buffer)
 vim.current.buffer[:] = None
@@ -13,6 +14,7 @@ vim.current.buffer[0] = lines[0] #It seems we cannot get rid of line 0 in previo
 for line in lines[1:]:
     vim.current.buffer.append(line)
 endpython
+call setpos(".", saved_pos)
 endfunction
 
 python << endpython

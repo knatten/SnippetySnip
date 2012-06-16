@@ -41,6 +41,7 @@ In the source files, surround each snippet with snippetysnip_begin:SNIPPET_NAME 
 In the target file, put on a separate line snippetysnipp:FILE_NAME:SNIPPET_NAME
 Paths can be relative or absolute. See the example above, or python/SnippetySnip/integration_tests/ for a more extensive one.
 To run SnippetySnip and insert all your snippets, do ":call SnippetySnip()" without the quotes. It is suggested you make a map to make this easier, see INSTALLATION
+About cursor position: Since the entire buffer is replaced, it is impossible to exactly remember the cursor position. SnippetySnip does however make a best effort, and puts the cursor back at the same line and column.
 
 
 

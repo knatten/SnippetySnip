@@ -1,8 +1,10 @@
 import re
 
+SNIPPET_BEGIN = "snippetysnip_begin" 
+SNIPPET_END = "snippetysnip_end"
+
 def get_snippet(file_name, snippet_name):
-    snippet_begin = "snippetysnip_begin:%s" % snippet_name
-    snippet_end = "snippetysnip_end"
+    snippet_begin = "%s:%s" % (SNIPPET_BEGIN, snippet_name)
     snippet = ""
 
     in_snippet = False
@@ -16,7 +18,7 @@ def get_snippet(file_name, snippet_name):
             in_snippet = True
             found_tag = True
             continue
-        if snippet_end in line:
+        if SNIPPET_END in line:
             in_snippet = False
         if in_snippet:
             snippet += line
@@ -29,7 +31,7 @@ def get_snippet(file_name, snippet_name):
 
 
 def find_end_line(lines, file_name, snippet_name):
-    snippet_end = "snippetysnip_end:%s:%s" % (file_name, snippet_name)
+    snippet_end = "%s:%s:%s" % (SNIPPET_END, file_name, snippet_name)
     for line_no in range(0, len(lines)):
         if snippet_end in lines[line_no]:
             return line_no

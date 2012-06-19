@@ -41,6 +41,7 @@ In the source files, surround each snippet with snippetysnip_begin:SNIPPET_NAME 
 In the target file, put on a separate line snippetysnipp:FILE_NAME:SNIPPET_NAME
 Paths can be relative or absolute. See the example above, or python/SnippetySnip/integration_tests/ for a more extensive one.
 To run SnippetySnip and insert all your snippets, do ":call SnippetySnip()" without the quotes. It is suggested you make a map to make this easier, see INSTALLATION
+It can be tedious to type the snippet inclusion strings in the target file. To get this string automatically, go to your source file, place the cursor inside the snippet you want the inclusion string for and do ":call SnippetySnipPrintCurrentSnippetString()" without the quotes. It will print the string for you (with html comments). It is suggested you make a map to make this easier, see INSTALLATION.
 About cursor position: Since the entire buffer is replaced, it is impossible to exactly remember the cursor position. SnippetySnip does however make a best effort, and puts the cursor back at the same line and column.
 
 
@@ -49,9 +50,10 @@ INSTALLATION
 Download SnippetySnip-<version>.tgz into your vim directory (usually ~/.vim on Linux systems) and do
 tar zxf SnippetySnip-<version>.tgz
 
-To make SnippetySnip easier to use, I suggest you set up a mapping in ~/.vimrc. One of the following should do nicely:
+To make SnippetySnip easier to use, I suggest you set up a mapping in ~/.vimrc. These should do nicely:
 map <Leader>s :call SnippetySnip()<CR> "Type <Leader>s to run SnippetySnip
 map <C-s> :call SnippetySnip()<CR> "Press Ctrl+s to run SnippetySnip
+map <Leader>S :call SnippetySnipPrintCurrentSnippetString()<CR> "Type <Leader>S to print the name of the current snippet
 
 
 
@@ -71,3 +73,6 @@ modified target:
     <!-- snippetysnip_end:source.cpp:foo -->
 
 (This was motivated by the fact that html-comments do not work well inside [sourcecode] blocks on Wordpress)
+
+If you want SnippetySnipPrintCurrentSnippetString() to include arguments, define g:SnippetySnipArguments. For instance, you can put this line in ~/.vimrc:
+let g:SnippetySnipArguments = "(before='[sourcecode language=\"cpp\"]', after='}[/sourcecode]')"

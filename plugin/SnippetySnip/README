@@ -76,3 +76,5 @@ modified target:
 
 If you want SnippetySnipPrintCurrentSnippetString() to include arguments, define g:SnippetySnipArguments. For instance, you can put this line in ~/.vimrc:
 let g:SnippetySnipArguments = "(before='[sourcecode language=\"cpp\"]', after='}[/sourcecode]')"
+
+SnippetySnip is also available on github: https://github.com/knatten/SnippetySnip

@@ -144,3 +144,24 @@ class Test_remove_arguments(unittest.TestCase):
         actual = "<!-- snippetysnip:snippy.cpp:snippet:(before=\"[sourcecode]\") -->"
         expected =  "<!-- snippetysnip:snippy.cpp:snippet -->"
         self.assertEqual(expected, remove_arguments(actual))
+
+class Test_get_current_snippet_name(unittest.TestCase):
+    buf = ['what', 'ever', 'snippetysnip_begin:foo', 'here', 'snippetysnip_end',
+        'snippetysnip_begin:bar', 'more', 'snippetysnip_end', 'jubajuba']
+
+    def test_when_in_foo__returns_foo(self):
+        self.assertEqual("foo", get_current_snippet_name(self.buf, self.buf.index('snippetysnip_begin:foo')))
+
+    def test_when_in_bar__returns_bar(self):
+        self.assertEqual("bar", get_current_snippet_name(self.buf, self.buf.index('snippetysnip_begin:bar')))
+
+    def test_when_not_in_snippet__raises_exception(self):
+        with self.assertRaises(ValueError) as error:
+            get_current_snippet_name(self.buf, 0)
+        self.assertEqual('Not in a snippet', error.exception.message)
+
+    def test_when_not_in_snippet__doesnt_accidentally_pick_the_previous_one(self):
+        with self.assertRaises(ValueError) as error:
+            get_current_snippet_name(self.buf, self.buf.index('jubajuba'))
+        self.assertEqual('Not in a snippet', error.exception.message)
+

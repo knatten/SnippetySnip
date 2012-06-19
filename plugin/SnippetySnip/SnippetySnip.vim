@@ -17,11 +17,21 @@ endpython
 call setpos(".", saved_pos)
 endfunction
 
+function! SnippetySnipPrintCurrentSnippetString()
+    if exists("g:SnippetySnipArguments")
+        let l:arguments = ':' . g:SnippetySnipArguments
+    else
+        let l:arguments = ''
+    endif
+    python vim.command("let l:snippetname='%s'" % get_current_snippet_name(vim.current.buffer, int(vim.eval("line('.')"))))
+    echo '<!-- snippetysnip:' . bufname('%') . ':' . l:snippetname . arguments . ' -->'
+endfunction
+
 python << endpython
 import os
 import vim
 path = os.path.join(os.environ['HOME'], '.vim', 'python')
 if not path in sys.path:
 	sys.path.append(path)
-from SnippetySnip.snippetysnip import insert_snippets
+from SnippetySnip.snippetysnip import insert_snippets, get_current_snippet_name
 endpython

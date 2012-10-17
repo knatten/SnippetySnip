@@ -1,6 +1,6 @@
 " Vim plugin for importing into a file selected lines from other files
-" Version:     0.5
-" Last change: 2012-06-19
+" Version:     0.6
+" Last change: 2012-10-17
 " Author:      Anders Schau Knatten
 " Contact:     anders AT knatten DOT org
 " License:     This file is placed in the public domain.

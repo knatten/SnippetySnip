@@ -2,7 +2,7 @@ import re
 
 SNIPPET_BEGIN = "snippetysnip_begin" 
 SNIPPET_END = "snippetysnip_end"
-LEGAL_SNIPPET_CHARS = r"0-9a-zA-Z\-_"
+LEGAL_SNIPPET_CHARS = r"0-9a-zA-Z\-_\."
 
 def get_snippet(file_name, snippet_name):
     try:
@@ -42,7 +42,6 @@ def assert_legal_snippet_name(snippet_name):
             raise ValueError("'%s' is not a legal character for a snippet name! Legal characters are'%s'." % (char, LEGAL_SNIPPET_CHARS))
 
 def matches_snippet_begin(line, snippet_name):
-    LEGAL_SNIPPET_CHARS = r"0-9a-zA-Z\-_"
     begin_re = "^.*%s[^%s]*$" % (snippet_begin(snippet_name), LEGAL_SNIPPET_CHARS)
     return re.match(begin_re, line) is not None
 

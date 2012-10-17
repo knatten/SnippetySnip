@@ -28,7 +28,7 @@ target.html:
     </code></p>
 
 
-SnippetySnip does not care about the format of the comments in your particular language, it only looks for the snippetysnip-strings.
+SnippetySnip does not care about the format of the comments in your particular language, it only looks for the snippetysnip-strings. A snippet name can consist of letters, numbers or any of the characters "-_.".
 
 You can have many snippets in a source file, and a target file can reference multiple snippets from multiple sources.
 

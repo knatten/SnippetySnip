@@ -2,9 +2,13 @@ import re
 
 SNIPPET_BEGIN = "snippetysnip_begin" 
 SNIPPET_END = "snippetysnip_end"
+LEGAL_SNIPPET_CHARS = r"0-9a-zA-Z\-_"
 
 def get_snippet(file_name, snippet_name):
-    snippet_begin = "%s:%s" % (SNIPPET_BEGIN, snippet_name)
+    try:
+        assert_legal_snippet_name(snippet_name)
+    except ValueError as e:
+        return e.message
     snippet = ""
 
     in_snippet = False
@@ -14,7 +18,7 @@ def get_snippet(file_name, snippet_name):
     except IOError as e:
         return "ERROR: Couldn't open file: %s\n" % e
     for line in file:
-        if snippet_begin in line:
+        if matches_snippet_begin(line, snippet_name):
             in_snippet = True
             found_tag = True
             continue
@@ -24,10 +28,23 @@ def get_snippet(file_name, snippet_name):
             snippet += line
 
     if not found_tag:
-        return "ERROR: Didn't find %s\n" % snippet_begin
+        return "ERROR: Didn't find %s\n" % snippet_begin(snippet_name)
     if in_snippet:
-        return "ERROR: Didn't find snippetysnip_end after %s\n" % snippet_begin
+        return "ERROR: Didn't find snippetysnip_end after %s\n" % snippet_begin(snippet_name)
     return snippet
+
+def snippet_begin(snippet_name):
+    return "%s:%s" % (SNIPPET_BEGIN, snippet_name)
+
+def assert_legal_snippet_name(snippet_name):
+    for char in snippet_name:
+        if not re.match("[%s]+" % LEGAL_SNIPPET_CHARS, char):
+            raise ValueError("'%s' is not a legal character for a snippet name! Legal characters are'%s'." % (char, LEGAL_SNIPPET_CHARS))
+
+def matches_snippet_begin(line, snippet_name):
+    LEGAL_SNIPPET_CHARS = r"0-9a-zA-Z\-_"
+    begin_re = "^.*%s[^%s]*$" % (snippet_begin(snippet_name), LEGAL_SNIPPET_CHARS)
+    return re.match(begin_re, line) is not None
 
 
 def find_end_line(lines, file_name, snippet_name):

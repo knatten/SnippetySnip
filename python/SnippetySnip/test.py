@@ -22,6 +22,34 @@ class Test_get_snippet(unittest.TestCase):
             "ERROR: Couldn't open file: [Errno 2] No such file or directory: 'missing_file.cpp'\n",
             get_snippet("missing_file.cpp", "tag"))
 
+    def test_illegal_snippet_name_returns_errormessage(self):
+        self.assertEqual(
+            "'!' is not a legal character for a snippet name! Legal characters are'%s'." % LEGAL_SNIPPET_CHARS,
+            get_snippet("example.cpp", "!"))
+
+class Test_matches_snippet_begin(unittest.TestCase):
+
+    def test_matches_whole_line(self):
+        self.assertTrue(matches_snippet_begin('snippetysnip_begin:foo', 'foo'))
+
+    def test_does_not_match_similar_snippet(self):
+        self.assertFalse(matches_snippet_begin('snippetysnip_begin:foo2', 'foo'))
+        self.assertFalse(matches_snippet_begin('snippetysnip_begin:fooooo', 'foo'))
+        self.assertFalse(matches_snippet_begin('snippetysnip_begin:fooO', 'foo'))
+        self.assertFalse(matches_snippet_begin('snippetysnip_begin:foo-', 'foo'))
+        self.assertFalse(matches_snippet_begin('snippetysnip_begin:foo_', 'foo'))
+
+    def test_all_characters_are_allowed(self):
+        self.assertTrue(matches_snippet_begin('snippetysnip_begin:09azAZ-_', '09azAZ-_'))
+
+class Test_assert_legal_snippet_name(unittest.TestCase):
+    def test_legal_name_does_not_raise(self):
+        assert_legal_snippet_name('09azAZ-_')
+
+    def test_illegal_character_in_name_raises(self):
+        with self.assertRaises(ValueError):
+            assert_legal_snippet_name('!')
+
 class Test_find_end_line(unittest.TestCase):
     def test_returns_correct_line_when_found(self):
         self.assertEqual(1, find_end_line(['a','snippetysnip_end:foo:bar', 'b'], 'foo', 'bar'))

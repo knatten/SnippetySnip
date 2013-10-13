@@ -39,6 +39,7 @@ class Test_matches_snippet_begin(unittest.TestCase):
         self.assertFalse(matches_snippet_begin('snippetysnip_begin:foo-', 'foo'))
         self.assertFalse(matches_snippet_begin('snippetysnip_begin:foo_', 'foo'))
         self.assertFalse(matches_snippet_begin('snippetysnip_begin:foo.', 'foo'))
+        self.assertFalse(matches_snippet_begin('snippetysnip_begin:foo_bar', 'foo'))
 
     def test_all_characters_are_allowed(self):
         self.assertTrue(matches_snippet_begin('snippetysnip_begin:09azAZ-_.', '09azAZ-_.'))

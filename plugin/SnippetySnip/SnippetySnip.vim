@@ -24,7 +24,7 @@ function! SnippetySnipPrintCurrentSnippetString()
         let l:arguments = ''
     endif
     python vim.command("let l:snippetname='%s'" % get_current_snippet_name(vim.current.buffer, int(vim.eval("line('.')"))))
-    echo '<!-- snippetysnip:' . bufname('%') . ':' . l:snippetname . arguments . ' -->'
+    echo '<!-- snippetysnip:' . fnamemodify(bufname('%'), ':p') . ':' . l:snippetname . arguments . ' -->'
 endfunction
 
 python << endpython

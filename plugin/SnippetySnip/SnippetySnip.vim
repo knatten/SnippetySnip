@@ -5,6 +5,8 @@
 " Contact:     anders AT knatten DOT org
 " License:     This file is placed in the public domain.
 
+let g:plugin_path = expand('<sfile>:p:h')
+
 function! SnippetySnip()
 let saved_pos = getpos(".")
 python << endpython
@@ -30,8 +32,8 @@ endfunction
 python << endpython
 import os
 import vim
-path = os.path.join(os.environ['HOME'], '.vim', 'python')
-if not path in sys.path:
-	sys.path.append(path)
+plugin_path = os.path.join(vim.eval("g:plugin_path"), "..", "..", "python")
+sys.path.append(plugin_path)
+
 from SnippetySnip.snippetysnip import insert_snippets, get_current_snippet_name
 endpython

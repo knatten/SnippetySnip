@@ -8,24 +8,24 @@ def get_snippet(file_name, snippet_name):
     try:
         assert_legal_snippet_name(snippet_name)
     except ValueError as e:
-        return e.message
+        return str(e)
     snippet = ""
 
     in_snippet = False
     found_tag = False
     try:
-        file = open(file_name, 'r')
+        with open(file_name, 'r') as file:
+            for line in file:
+                if matches_snippet_begin(line, snippet_name):
+                    in_snippet = True
+                    found_tag = True
+                    continue
+                if SNIPPET_END in line:
+                    in_snippet = False
+                if in_snippet:
+                    snippet += line
     except IOError as e:
         return "ERROR: Couldn't open file: %s\n" % e
-    for line in file:
-        if matches_snippet_begin(line, snippet_name):
-            in_snippet = True
-            found_tag = True
-            continue
-        if SNIPPET_END in line:
-            in_snippet = False
-        if in_snippet:
-            snippet += line
 
     if not found_tag:
         return "ERROR: Didn't find %s\n" % snippet_begin(snippet_name)
@@ -86,10 +86,10 @@ def insert_snippets(old_buffer, snippet_getter=get_snippet):
             new_buffer.append('')
             arguments = get_arguments(line)
             file_name, snippet_name = match.groups()
-            if arguments.has_key('before'):
+            if 'before' in arguments:
                 new_buffer.append(arguments['before'])
             new_buffer.extend(snippet_getter(file_name, snippet_name).split("\n")[:-1])
-            if arguments.has_key('after'):
+            if 'after' in arguments:
                 new_buffer.append(arguments['after'])
             new_buffer.append('')
             new_buffer.append(remove_arguments(line).replace("snippetysnip", "snippetysnip_end"))

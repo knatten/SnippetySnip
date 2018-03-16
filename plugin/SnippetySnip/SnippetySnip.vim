@@ -7,9 +7,19 @@
 
 let g:plugin_path = expand('<sfile>:p:h')
 
+function! s:UsingPython3()
+  if has('python3')
+    return 1
+  endif
+    return 0
+endfunction
+let s:using_python3 = s:UsingPython3()
+let s:python_until_eof = s:using_python3 ? "python3 << endpython" : "python << endpython"
+let s:python_command = s:using_python3 ? "py3 " : "py "
+
 function! SnippetySnip()
 let saved_pos = getpos(".")
-python << endpython
+exec s:python_until_eof
 lines = insert_snippets(vim.current.buffer)
 vim.current.buffer[:] = None
 vim.current.buffer[0] = lines[0] #It seems we cannot get rid of line 0 in previous command
@@ -29,7 +39,7 @@ function! SnippetySnipPrintCurrentSnippetString()
     echo '<!-- snippetysnip:' . fnamemodify(bufname('%'), ':p') . ':' . l:snippetname . arguments . ' -->'
 endfunction
 
-python << endpython
+exec s:python_until_eof
 import os
 import vim
 plugin_path = os.path.join(vim.eval("g:plugin_path"), "..", "..", "python")

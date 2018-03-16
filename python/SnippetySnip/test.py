@@ -188,10 +188,10 @@ class Test_get_current_snippet_name(unittest.TestCase):
     def test_when_not_in_snippet__raises_exception(self):
         with self.assertRaises(ValueError) as error:
             get_current_snippet_name(self.buf, 0)
-        self.assertEqual('Not in a snippet', error.exception.message)
+        self.assertEqual('Not in a snippet', str(error.exception))
 
     def test_when_not_in_snippet__doesnt_accidentally_pick_the_previous_one(self):
         with self.assertRaises(ValueError) as error:
             get_current_snippet_name(self.buf, self.buf.index('jubajuba'))
-        self.assertEqual('Not in a snippet', error.exception.message)
+        self.assertEqual('Not in a snippet', str(error.exception))
 
